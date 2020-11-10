@@ -17,7 +17,8 @@ for line in lines:
     line_tmp = re.sub('7', '七', line_tmp)
     line_tmp = re.sub('8', '八', line_tmp)
     line_tmp = re.sub('9', '九', line_tmp)
-
+    line_tmp = re.sub('(?<=[a-zA-Z])(?=[\u4e00-\u9fa5])', ' ', line_tmp)
+    line_tmp = re.sub('(?<=[\u4e00-\u9fa5])(?=[a-zA-Z])', ' ', line_tmp)
     tmp.append(line_tmp)
 lines = tmp
 
