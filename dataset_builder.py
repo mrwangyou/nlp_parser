@@ -23,13 +23,14 @@ f = open('./dataset/2014_corpus_single_word.txt', 'r', encoding='UTF-8')
 num = 0
 flag = 0
 dataset = []
-for sent in f:
+for sent in f.readlines():
     sentSet = []
     num = num + 1
     for char in sent.split():
         sentSet.append(int(dict[char]))
     dataset.append(sentSet)
     if num >= 100:
+        num = 0
         finalSet = []
         maxSize = 0
         for line in dataset:
@@ -39,7 +40,17 @@ for sent in f:
             while len(tmp) < maxSize:
                 tmp.append(len(dict))
             finalSet.append(tmp)
-        torch.save(torch.tensor(dataset), './dataset/word_dict_tensor/' + str(flag) + '.pth')
+        # print(torch.tensor(finalSet))
+        torch.save(torch.tensor(finalSet), './dataset/word_dict_tensor/' + str(flag) + '.pth')
         flag = flag + 1
         dataset = []
-torch.save(torch.tensor(dataset), './dataset/word_dict_tensor/' + str(flag) + '.pth')
+finalSet = []
+maxSize = 0
+for line in dataset:
+    maxSize = max(maxSize, len(line))
+for line in dataset:
+    tmp = line
+    while len(tmp) < maxSize:
+        tmp.append(len(dict))
+    finalSet.append(tmp)
+torch.save(torch.tensor(finalSet), './dataset/word_dict_tensor/' + str(flag) + '.pth')
